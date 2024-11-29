@@ -1,8 +1,20 @@
-require('dotenv').config(); // Load environment variables from .env
-const { Client, GatewayIntentBits, REST, Routes } = require('discord.js');
+const express = require('express');
+const app = express();
 
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildMessages] });
+app.get('/', (req, res) => res.send('Bot is running!'));
+app.listen(3000, () => console.log('HTTP server running on port 3000'));
+
+// Your Discord bot logic here
+const { Client, GatewayIntentBits } = require('discord.js');
+require('dotenv').config();
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+client.once('ready', () => {
+    console.log(`${client.user.tag} is online!`);
+});
+
+client.login(process.env.DISCORD_TOKEN);
 
 // Bot commands
 const commands = [
